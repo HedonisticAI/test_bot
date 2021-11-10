@@ -3,13 +3,14 @@ package main
 import (
 	"encoding/json"
 	"log"
+	"net"
 	"net/http"
 	"os"
 
 	//"database/sql"
 	//"github.com/lib/pq"
 
-	tgbotapi "github.com/Syfaro/telegram-bot-api"
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
 type Config struct {
@@ -44,6 +45,7 @@ func main() {
 	upd := bot.ListenForWebhook("/" + configuration.TelegramBotToken)
 	http.HandleFunc("/", MainHandler)
 	go http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+
 	// читаем обновления из канала
 	for x != 1 {
 		x = 0
@@ -51,9 +53,9 @@ func main() {
 		case update := <-upd:
 			// Пользователь, который написал боту
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
-			msg.Text = "default"
+			msg.Text = "ip"
+			client.GetInfo(net.ParseIP(update.Message.Text))
 			if update.Message.IsCommand() {
-				msg.Text = update.Message.Text
 				msg.ReplyToMessageID = update.Message.MessageID
 			}
 			bot.Send(msg)
