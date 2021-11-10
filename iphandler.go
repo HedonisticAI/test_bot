@@ -19,8 +19,8 @@ func parseip(ip string, id int, client *ipinfo.Client) string {
 	if err != nil {
 		return "ip error"
 	}
-	res = "org" + info.Organization + "\n" + "city" + info.City + "\n" + "region " + info.Region + "\n"
-	res = res + "host" + info.Hostname + "\n" + "phone" + info.Phone + "\n" + "country" + info.Country
-
+	res = "org " + info.Organization + "\n" + "city " + info.City + "\n" + "region " + info.Region + "\n"
+	res = res + "host " + info.Hostname + "\n" + "phone  " + info.Phone + "\n" + "country " + info.Country
+	addtodb(res, id)
 	return res
 }
