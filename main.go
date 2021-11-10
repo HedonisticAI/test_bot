@@ -22,6 +22,7 @@ func MainHandler(resp http.ResponseWriter, _ *http.Request) {
 
 func main() {
 	file, _ := os.Open("cfg.json")
+	inidb()
 	decoder := json.NewDecoder(file)
 	configuration := Config{}
 	err := decoder.Decode(&configuration)
