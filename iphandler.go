@@ -12,14 +12,15 @@ func ipinit() *ipinfo.Client {
 	client := ipinfo.NewClient(httpClient)
 	return client
 }
-func parseip(ip string, client *ipinfo.Client) string {
+func parseip(ip string, id int, client *ipinfo.Client) string {
 	var res string
 	IPAddress := net.ParseIP(ip)
 	info, err := client.GetInfo(IPAddress)
 	if err != nil {
 		return "ip error"
 	}
-	res = info.Organization + "\n" + info.City + "\n" + info.Region + "\n"
-	res = res + info.Hostname + "\n" + info.Phone + "\n" + info.Country
+	res = "org" + info.Organization + "\n" + "city" + info.City + "\n" + "region " + info.Region + "\n"
+	res = res + "host" + info.Hostname + "\n" + "phone" + info.Phone + "\n" + "country" + info.Country
+
 	return res
 }
