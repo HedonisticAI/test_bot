@@ -58,7 +58,7 @@ func main() {
 				case "help":
 					msg.Text = "I understand ipinfo and userhistory."
 				case "ipinfo":
-					msg.Text = parseip(update.Message.CommandArguments(), client)
+					msg.Text = parseip(update.Message.CommandArguments(), update.Message.From.ID, client)
 				case "userhistory":
 					msg.Text = userhistory(update.Message.From.ID)
 				default:
