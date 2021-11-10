@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"log"
-	"net"
 	"net/http"
 	"os"
 
@@ -45,7 +44,7 @@ func main() {
 	upd := bot.ListenForWebhook("/" + configuration.TelegramBotToken)
 	http.HandleFunc("/", MainHandler)
 	go http.ListenAndServe(":"+os.Getenv("PORT"), nil)
-
+	client := ipinit()
 	// читаем обновления из канала
 	for x != 1 {
 		x = 0
@@ -53,9 +52,9 @@ func main() {
 		case update := <-upd:
 			// Пользователь, который написал боту
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
-			msg.Text = "ip"
-			client.GetInfo(net.ParseIP(update.Message.Text))
+			msg.Text = parseip(update.Message.Text, client)
 			if update.Message.IsCommand() {
+
 				msg.ReplyToMessageID = update.Message.MessageID
 			}
 			bot.Send(msg)
