@@ -19,6 +19,7 @@ func parseip(ip string, client *ipinfo.Client) string {
 	if err != nil {
 		return "ip error"
 	}
-	res = info.Organization + " " + info.City + " " + info.Region + " " + info.Hostname
+	res = info.Organization + "/n" + info.City + "/" + info.Region + "/n"
+	res = res + info.Hostname + "/n" + info.Phone + "/n" + info.Country
 	return res
 }

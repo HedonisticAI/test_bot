@@ -52,9 +52,18 @@ func main() {
 		case update := <-upd:
 			// Пользователь, который написал боту
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
-			msg.Text = parseip(update.Message.Text, client)
+			msg.Text = "use commands please"
 			if update.Message.IsCommand() {
-
+				switch update.Message.Command() {
+				case "help":
+					msg.Text = "I understand ipinfo and userhistory."
+				case "ipinfo":
+					msg.Text = parseip(update.Message.CommandArguments(), client)
+				case "userhistory":
+					msg.Text = userhistory(update.Message.From.ID)
+				default:
+					msg.Text = "I don't know that command"
+				}
 				msg.ReplyToMessageID = update.Message.MessageID
 			}
 			bot.Send(msg)
